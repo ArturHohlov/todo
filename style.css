@@ -10,10 +10,6 @@
         outline: none;
 }
 
-input {
-        display: block;
-}
-
 body {
         height: 100vh;
         background: url(/images/bernard-hermant-OjwQ9WywGsw-unsplash.jpg);
@@ -122,6 +118,7 @@ body {
                         height: 100%;
                         font-size: 30px;
                         text-decoration: underline;
+                        
                 }
 
                 .task__btn {

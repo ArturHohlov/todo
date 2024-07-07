@@ -1,5 +1,6 @@
 const KEYDEL = 'Delete';
 const ENTER = 'Enter';
+const ESC = 'Escape'
 
 const titleInput = document.querySelector('.title__input--line');
 const titleButton = document.querySelector('.title__input--button');
@@ -52,8 +53,6 @@ const pushTaskInArray = () => {
         if (buttonPush !== false || keyEnterForPush !== false) {
             render();
         };
-    } else {
-        alert('Задача не задана');  
     };
 };
 
@@ -115,18 +114,32 @@ const convertCheckbox = (event) => {
     // /////////////////////////////////////////////
 
     if (event.detail === 2) {
-        // console.log(event);
-        // console.log(event.target.parentElement.id);
-        // console.log(event.target.hidden);
+        console.log(event);
         event.target.hidden = true;
-        // event.target.attributes.hidden = ;
         event.target.previousElementSibling.hidden = false;
-        // console.log(event.target.previousElementSibling);
-        // console.log(event.target.hidden);
-        // console.log(event.target.previousElementSibling.hidden);
+        event.target.previousElementSibling.focus();
+        if (event.target.previousElementSibling.hidden === false) {
+            taskArray = taskArray.forEach(element => {
+                element.text = event.target.previousElementSibling.value;
+                console.log(element.text);
+                console.log(element.text);
+                saveTitleTask();
+            });
+        };
     };
     ///////////////////////////////////////////////////
 };
+
+const saveTitleTask = (e) => {
+    // removeEventListener('keydown', enterPressPush);
+    if (e.code === ENTER) {
+        render();
+    };
+    if (e.code === ESC) {
+        console.log('esc');
+        render();
+    };
+}; 
 
 // const searchTask = (event) => {
 //     console.log(event.srcElement);
@@ -136,9 +149,8 @@ const convertCheckbox = (event) => {
 // };
 
 
-
-
 const keyEnterForPush = document.addEventListener('keydown', enterPressPush);
+const saveRenameTask = document.addEventListener('keydown', saveTitleTask);
 const keyRemoveDel = document.addEventListener('keydown', pressRemoveAll);
 const buttonPush = titleButton.addEventListener('click', pushTaskInArray);
 const buttonCheckbox = taskList.addEventListener('click', convertCheckbox);

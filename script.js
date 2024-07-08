@@ -9,8 +9,11 @@ const taskList = document.querySelector('.taskList');
 const taskId = taskList.querySelector('.task');
 const checkboxCheckAll = document.querySelector('.allCheck');
 const removeAllCheckTask = document.querySelector('.removeFull');
-// checkboxCheckAll == removeAll
+const states = document.querySelector('.state');
+
+
 let taskArray = [];
+
 
 const deleteAllCheck = () => {
     taskArray = taskArray.filter(elem => !elem.isChecked);
@@ -42,6 +45,8 @@ const enterPressPush = (e) => {
     };
 };
 
+////////
+
 const pushTaskInArray = () => {
     if (titleInput.value !== '') {
         let taskObject = {
@@ -56,6 +61,8 @@ const pushTaskInArray = () => {
     };
 };
 
+////////
+
 const render = () => {
     checkboxCheckAll.checked = false;
     checkAllCheckbox();
@@ -63,7 +70,7 @@ const render = () => {
     taskArray.forEach( (taskObject) => {
         newElement += `
         <li class="task" id="${taskObject.id}">
-            <input type="checkbox" class="task__checkout" ${taskObject.isChecked ? 'checked' : ''}>
+            <input type="checkbox" class="task__checkout" ${taskObject.isChecked ? 'checked' : ''} maxlength="255">
             <input value="${taskObject.text}" class="inputInTask" hidden>
             <span class="task__title">${taskObject.text}</span>
             <button class="task__btn">&#10006;</button>
@@ -72,31 +79,24 @@ const render = () => {
     });
     taskList.innerHTML = newElement;
     titleInput.value = '';
+    ////////
+    lengthTask();
+    activeTask();
+    completedTask();
+    ////////
 };
 
-// let checkAllCheckbox = () => {
-//     if (taskArray.length > 0) {
-//         let allChecked = taskArray.every(elem => elem.isChecked);
-//         if (allChecked === true) {
-//             removeAll.checked = true;
-//             console.log(allChecked);
-//         } else {
-//             removeAll.checked = false;
-//         };
-//     } else {
-//         console.log('dd');
-//     };
-// };
+////////
 
 let checkAllCheckbox = () => {
     checkboxCheckAll.checked = taskArray.length > 0 ? taskArray.every(elem => elem.isChecked): false;
 };
 
+////////
 
 const convertCheckbox = (event) => {
     const eventId = event.target.parentElement.id;
     if (event.target.type === 'checkbox') {
-        // event.target.isChecked = !event.target.isChecked;
         taskArray.forEach( (task) => {
             if (task.id === Number(eventId)) {
                 task.isChecked = event.target.checked;
@@ -109,7 +109,6 @@ const convertCheckbox = (event) => {
     if (event.target.type === 'submit') {
         taskArray = taskArray.filter( elem => elem.id !== Number(eventId));
         render();
-        // console.log(event);
     };
     // /////////////////////////////////////////////
 
@@ -118,41 +117,80 @@ const convertCheckbox = (event) => {
         event.target.hidden = true;
         event.target.previousElementSibling.hidden = false;
         event.target.previousElementSibling.focus();
-        if (event.target.previousElementSibling.hidden === false) {
-            taskArray = taskArray.forEach(element => {
-                element.text = event.target.previousElementSibling.value;
-                console.log(element.text);
-                console.log(element.text);
-                saveTitleTask();
-            });
-        };
+        event.target.previousElementSibling.addEventListener('blur', () => {
+            render();
+        });
     };
     ///////////////////////////////////////////////////
 };
 
 const saveTitleTask = (e) => {
-    // removeEventListener('keydown', enterPressPush);
+    ////////
     if (e.code === ENTER) {
+        console.log(e);
+        taskArray.forEach(task => {
+            if (task.id === Number(e.target.parentElement.id)) {
+                task.text = e.target.value;
+                /////////////////////////////
+                
+                ////////////////////////////
+            };
+        });
         render();
     };
     if (e.code === ESC) {
         console.log('esc');
         render();
     };
+};
+
+
+const lengthTask = () => {
+    let allTask = taskArray.length;
+    states.childNodes[1].innerText = 'All' + ` (${allTask})`
+};
+
+
+
+const activeTask = () => {
+    let noCheckTask = 0;
+    taskArray.filter( task => {
+        if (task.isChecked === false) {
+            noCheckTask += 1;
+        };
+    }).length;
+    states.childNodes[3].innerText = 'Active' + ` (${noCheckTask})`;
+    console.log(states.childNodes);
+};
+
+
+const completedTask = () => {
+    let allCheckTask = taskArray.length;
+    let noCheckTask = 0;
+    taskArray.filter( task => {
+        if (task.isChecked === false) {
+            noCheckTask += 1;
+        };
+    }).length;
+    console.log(states.childNodes);
+    let checkTask = allCheckTask - noCheckTask;
+    states.childNodes[5].innerText = 'Completed' + ` (${checkTask})`;
+};
+
+const checkElementState = () => {
+
+// //////// ////////
+   
 }; 
 
-// const searchTask = (event) => {
-//     console.log(event.srcElement);
-//     let taskInTaskList = taskList.querySelector('.task');
-//     //вызов функции двойного слика
-//     console.log(taskInTaskList);
-// };
 
 
-const keyEnterForPush = document.addEventListener('keydown', enterPressPush);
-const saveRenameTask = document.addEventListener('keydown', saveTitleTask);
+const stateCheck = states.addEventListener('click', checkElementState);
+const keyEnterForPush = titleInput.addEventListener('keydown', enterPressPush);
+const saveRenameTask = taskList.addEventListener('keydown', saveTitleTask);
 const keyRemoveDel = document.addEventListener('keydown', pressRemoveAll);
 const buttonPush = titleButton.addEventListener('click', pushTaskInArray);
 const buttonCheckbox = taskList.addEventListener('click', convertCheckbox);
 const buttonAllCheck = checkboxCheckAll.addEventListener('click', removeAllCheck);
 const buttonAllRemove = removeAllCheckTask.addEventListener('click', deleteAllCheck);
+

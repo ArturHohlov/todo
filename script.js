@@ -1,4 +1,4 @@
-const KEYDEL = 'Delete';
+;const KEYDEL = 'Delete';
 const ENTER = 'Enter';
 const ESC = 'Escape'
 
@@ -10,14 +10,15 @@ const taskId = taskList.querySelector('.task');
 const checkboxCheckAll = document.querySelector('.allCheck');
 const removeAllCheckTask = document.querySelector('.removeFull');
 const states = document.querySelector('.state');
+const page = document.querySelector('#page');
 
 
 let taskArray = [];
-
+let filterType = 'all';
+const taskOnPage = 5;
 
 const deleteAllCheck = () => {
     taskArray = taskArray.filter(elem => !elem.isChecked);
-    
     render();
 };
 
@@ -27,6 +28,7 @@ const removeAllCheck = () => {
         alert('Задача не задана')
     } else {
         taskArray.forEach( elem => {
+            console.log('ddddd');
             elem.isChecked = checkboxCheckAll.checked;
         });
         render();
@@ -63,11 +65,15 @@ const pushTaskInArray = () => {
 
 ////////
 
+
 const render = () => {
     checkboxCheckAll.checked = false;
+    let filterAllTask = filterArray();
+    console.log(filterAllTask);
+    console.log(filterType)
     checkAllCheckbox();
     let newElement = '';
-    taskArray.forEach( (taskObject) => {
+    filterAllTask.forEach( (taskObject) => {
         newElement += `
         <li class="task" id="${taskObject.id}">
             <input type="checkbox" class="task__checkout" ${taskObject.isChecked ? 'checked' : ''} maxlength="255">
@@ -77,15 +83,14 @@ const render = () => {
         </li>
         `;
     });
+    ////////
     taskList.innerHTML = newElement;
     titleInput.value = '';
-    ////////
     lengthTask();
     activeTask();
     completedTask();
     ////////
 };
-
 ////////
 
 let checkAllCheckbox = () => {
@@ -117,9 +122,9 @@ const convertCheckbox = (event) => {
         event.target.hidden = true;
         event.target.previousElementSibling.hidden = false;
         event.target.previousElementSibling.focus();
-        event.target.previousElementSibling.addEventListener('blur', () => {
-            render();
-        });
+        // event.target.previousElementSibling.addEventListener('blur', () => {
+        //     render();
+        // });
     };
     ///////////////////////////////////////////////////
 };
@@ -177,13 +182,55 @@ const completedTask = () => {
     states.childNodes[5].innerText = 'Completed' + ` (${checkTask})`;
 };
 
-const checkElementState = () => {
 
-// //////// ////////
-   
+// let filterTaskArray = () => {
+//     console.log('filtertask');
+//     let filterTasks = taskArray;
+//     console.log(filterTasks);
+//     render();
+// };
+const filterArray = () => {
+    if (filterType === 'all') {
+        console.log(taskArray);
+        return taskArray;
+    };
+    if (filterType === 'active') {
+        console.log('active')
+        let activeTasks = taskArray.filter(task => !task.isChecked);
+        console.log(activeTasks);
+        return activeTasks;
+    };
+    if (filterType === 'completed') {
+        console.log('completed')
+        let completedTasks = taskArray.filter(task => task.isChecked);
+        console.log(completedTasks);
+        return completedTasks;
+    };
+};
+
+const checkElementState = (event) => {
+    filterType = event.target.id;
+    console.log(filterType);
+    render();
+
 }; 
 
+const blurElement = (event) => {
+    console.log(event);
+    event.target.nextElementSibling.innerText = event.target.value;
+    render();
+    
+};
 
+
+////////////////////////////////////
+
+
+let currentPage = 1;
+
+const pageForTask = (taskArray) => {
+    taskArray.forEach()
+};
 
 const stateCheck = states.addEventListener('click', checkElementState);
 const keyEnterForPush = titleInput.addEventListener('keydown', enterPressPush);
@@ -193,4 +240,4 @@ const buttonPush = titleButton.addEventListener('click', pushTaskInArray);
 const buttonCheckbox = taskList.addEventListener('click', convertCheckbox);
 const buttonAllCheck = checkboxCheckAll.addEventListener('click', removeAllCheck);
 const buttonAllRemove = removeAllCheckTask.addEventListener('click', deleteAllCheck);
-
+const blurInput = taskList.addEventListener('blur', blurElement, true);

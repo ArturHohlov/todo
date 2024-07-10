@@ -1,45 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="styles/style.css">
-        <title>ToDo-JavaScript</title>
-</head>
-<body>
-        <div class="container">
-                <div class="title">
-                        <h1>ToDo-JavaScript</h1>
-                        <div class="title__input">
-                                <input type="text" value="" placeholder="Введи задачу..." class="title__input--line">
-                                <input type="submit" class="title__input--button" value="Добавить">
+        <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <link rel="stylesheet" href="styles/style.css">
+                <title>ToDo-JavaScript</title>
+        </head>
+        <body>
+                <div class="container">
+                        <div class="title">
+                                <h1>ToDo-JavaScript</h1>
+                                <div class="title__input">
+                                        <input placeholder="Введи задачу..." class="title__input--line" maxlength="255">
+                                        <input type="submit" class="title__input--button" value="Push">
+                                </div>
                         </div>
-                </div>
-                <ul class="taskList">
-                </ul>
-                <div class="allCheckbox">
-                        <p>All check</p>
-                        <input type="checkbox" class="allCheck">
-                </div>
-                <div class="state">
-                        <button class="state__all">All</button>
-                        <button class="state__active">Active</button>
-                        <button class="state__compl">Completed</button>
-                </div>
-                <button class="removeFull">Delete completed</button>
-        </div>
-        <script src="scripts/script.js"></script>
-</body>
-                <!-- <div class="task">
-                        <input type="checkbox" class="task__checkout">
-                        <input type="text" class="task__title" value="">
-                        <div class="task__btn">
-                                <button class="task__btn--done">
-                                        Готово
-                                </button>
-                                <button class="task__btn--todo">
-                                        В процессе
-                                </button>
+                        <ul class="taskList">
+                        </ul>
+                        <ul id="page">
+                        </ul>
+                        <div class="allCheckbox">
+                                <p>All check</p>
+                                <input type="checkbox" class="allCheck">
                         </div>
-                </div> -->
+                        <div class="state">
+                                <button class="state__all" id="all">All</button>
+                                <button class="state__active" id="active">Active</button>
+                                <button class="state__completed" id="completed">Completed</button>
+                        </div>
+                        <button class="removeFull">Delete completed</button>
+                </div>
+                <script src="scripts/script.js"></script>
+        </body>
 </html> 

@@ -69,8 +69,6 @@ const pushTaskInArray = () => {
 const render = () => {
     checkboxCheckAll.checked = false;
     let filterAllTask = filterArray();
-    console.log(filterAllTask);
-    console.log(filterType)
     checkAllCheckbox();
     let newElement = '';
     filterAllTask.forEach( (taskObject) => {
@@ -89,6 +87,7 @@ const render = () => {
     lengthTask();
     activeTask();
     completedTask();
+    // pageForTask();
     ////////
 };
 ////////
@@ -165,7 +164,7 @@ const activeTask = () => {
         };
     }).length;
     states.childNodes[3].innerText = 'Active' + ` (${noCheckTask})`;
-    console.log(states.childNodes);
+    
 };
 
 
@@ -177,7 +176,7 @@ const completedTask = () => {
             noCheckTask += 1;
         };
     }).length;
-    console.log(states.childNodes);
+   
     let checkTask = allCheckTask - noCheckTask;
     states.childNodes[5].innerText = 'Completed' + ` (${checkTask})`;
 };
@@ -191,26 +190,23 @@ const completedTask = () => {
 // };
 const filterArray = () => {
     if (filterType === 'all') {
-        console.log(taskArray);
         return taskArray;
     };
     if (filterType === 'active') {
         console.log('active')
         let activeTasks = taskArray.filter(task => !task.isChecked);
-        console.log(activeTasks);
         return activeTasks;
     };
     if (filterType === 'completed') {
         console.log('completed')
         let completedTasks = taskArray.filter(task => task.isChecked);
-        console.log(completedTasks);
+        
         return completedTasks;
     };
 };
 
 const checkElementState = (event) => {
     filterType = event.target.id;
-    console.log(filterType);
     render();
 
 }; 
@@ -225,12 +221,42 @@ const blurElement = (event) => {
 
 ////////////////////////////////////
 
+// let taskArray = [];
+// // let filterType = 'all';
+// const taskOnPage = 5;
 
 let currentPage = 1;
 
-const pageForTask = (taskArray) => {
-    taskArray.forEach()
+// page.innerHTML = `<li>${currentPage}</li>`;
+// const pageForTask = (taskArray) => {
+//     taskArray.slice();
+// };
+
+// const checkPage = (event) => {
+    
+//     if (event.target.childNodes === 'li') {
+//         console.log(event.target.childNodes);
+//     };
+// };
+
+
+// const sliceArray = (taskArray) => {
+//     let sliceArr = taskArray;
+//     console.log(sliceArr.slice(1, 3));
+// };
+
+
+const paginationList = (taskArray, pages, currentPage) => {
+    const startElement = pages * currentPage;
+    const endElement = startElement + pages;
+    const paginationTasks = taskArray.slice(startElement, endElement);
+    paginationTasks.forEach( element => {
+        const taskElement = page.innerHTML;
+        taskElement = `<li>${list}</li>`
+    });
 };
+const paginationButton = () => {};
+
 
 const stateCheck = states.addEventListener('click', checkElementState);
 const keyEnterForPush = titleInput.addEventListener('keydown', enterPressPush);
@@ -241,3 +267,5 @@ const buttonCheckbox = taskList.addEventListener('click', convertCheckbox);
 const buttonAllCheck = checkboxCheckAll.addEventListener('click', removeAllCheck);
 const buttonAllRemove = removeAllCheckTask.addEventListener('click', deleteAllCheck);
 const blurInput = taskList.addEventListener('blur', blurElement, true);
+// const asasas = page.addEventListener('click', checkPage);
+const asasas = page.addEventListener('click', sliceArray);

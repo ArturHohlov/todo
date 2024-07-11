@@ -107,7 +107,7 @@ body {
                 border: 3px solid #bfbfbf;
                 border-radius: 15px;
 
-                .task__checkout {
+                .task__checkbox {
                         width: 30px;
                         height: 30px;
                         margin-right: 10px;
@@ -122,7 +122,7 @@ body {
                         
                 }
 
-                .task__btn {
+                .task__remove {
                                 width: 50px;
                                 border: 2px solid rgb(255, 153, 0);
                                 border-radius: 10px;
@@ -158,8 +158,15 @@ body {
                 cursor: pointer;
         }
 
+        .button__check {
+          background-color: #ffffff00;
+          border: 2px solid #000;
+          box-shadow: -17px 25px 20px #000000;
+          transition: 0.2s;
+        }
 }
-.removeFull {
+
+.remove__completed {
         padding: 20px 100px;
         font-size: 25px;
         font-weight: 600;
@@ -205,20 +212,21 @@ body {
         height: 30px;
 }
 
-#page {
+#pages {
         padding: 30px;
         display: flex;
         flex-direction: row;
         justify-content: center;
         column-gap: 10px;
 
-        li {
+        button {
                 display: block;
                 border: 2px solid #666666;
                 color: #666666;
-                padding: 5px 3px;
+                padding: 3px 8px;
                 border-radius: 5px;
                 font-size: 20px;
+                
 
                 &:hover {
                         border-color: #000;
@@ -226,6 +234,7 @@ body {
                         background: #000;
                         transition: 0.2s;
                         cursor: pointer;
+                        box-shadow: -12px 12px 15px #000000;
                 }
         }
 }

@@ -5,11 +5,11 @@ const TASK_ON_PAGE = 5
 
 const titleInput = document.querySelector('.title__input--line');
 const titlePush = document.querySelector('.title__input--button');
-const taskList = document.querySelector('.taskList');
+const taskList = document.querySelector('.task__list');
 const task = taskList.querySelector('.task');
 const taskTitle = document.querySelector('.task__title');
 const pageList = document.querySelector('#pages');
-const checkboxAll = document.querySelector('.allCheck');
+const checkboxAll = document.querySelector('.all__сheck');
 const taskState = document.querySelector('.state');
 const removeCompleted = document.querySelector('.remove__completed');
 const pages = document.querySelector('#pages');
@@ -22,7 +22,7 @@ let numberPage = 1;
 const clickPushTask = () => {
   if (titleInput.value !== '') {
     let replaceTitle = titleInput.value.replace(/<\\?[^>]+(>|$)/g, '')
-    // titleInput.value = titleInput.value.replace(/<\\?[^>]+(>|$)/g, '');
+    
     let objectTask = {
       text: replaceTitle,
       id: Date.now(),
@@ -38,6 +38,8 @@ const clickPushTask = () => {
 
     console.log(taskArray);
     titleInput.value = '';
+  } else {
+    console.log('not task');
   };
   render();
 };
@@ -57,7 +59,11 @@ const buttonTitleTask = (event) => {
   if (event.code === ENTER) {
     taskArray.forEach( element => {
       if (element.id === Number(event.target.parentElement.id)) {
-        element.text = event.target.value;
+        if (event.target.value !== '') {
+          element.text = event.target.value;
+        } else {
+          render()
+        };
       };
     });
   };
@@ -124,7 +130,7 @@ const deleteAllCompleted = () => {
 
 
 const arrayFilter = () => {
-  // typeFilter = event.target.id;
+
   if (typeFilter === 'all') {
     return taskArray;
   };
@@ -216,11 +222,7 @@ const sliceList = () => {
   const endElement = TASK_ON_PAGE * numberPage;
   const startElement = endElement - TASK_ON_PAGE;
   const paginationTasks = arrayFilter().slice(startElement, endElement);
-  
-  // let filterAllTask = arrayFilter();
-  // console.log(filterAllTask);
-  // filterAllTask.forEach(() => {
-  // });
+ 
   paginationTasks.forEach( element => {
     paginationView();
     
@@ -254,8 +256,7 @@ const pressPageButton = (event) => {
 
 
 const render = () => { 
-  // let filterState = arrayFilter();
-  // arrayFilter();
+
   if (taskArray.length === 0) {
     pages.innerHTML = '';
   };
@@ -285,9 +286,7 @@ const render = () => {
   activeLength();
   completedLength();
   
-  // paginationView();
-  // checkElementState();
-  
+
 };
 
 

@@ -1,7 +1,7 @@
 const ENTER = 'Enter';
 const DELETE = 'Delete';
 const ESCAPE = 'Escape';
-const TASK_ON_PAGE = 5
+const TASK_ON_PAGE = 5;
 
 const titleInput = document.querySelector('.title__input--line');
 const titlePush = document.querySelector('.title__input--button');
@@ -12,6 +12,9 @@ const pageList = document.querySelector('#pages');
 const checkboxAll = document.querySelector('.all__сheck');
 const taskState = document.querySelector('.state');
 const removeCompleted = document.querySelector('.remove__completed');
+const buttonAllInState = document.querySelector('.state__all');
+const buttonActiveState = document.querySelector('.state__active');
+const buttonCompletedState = document.querySelector('.state__completed');
 const pages = document.querySelector('#pages');
 
 
@@ -144,6 +147,8 @@ const arrayFilter = () => {
     let taskCompeted = taskArray.filter( element => element.isCheck);
     return taskCompeted;
   };
+
+  sliceList();
   
 };
 
@@ -231,31 +236,46 @@ const sliceList = () => {
 };
 
 const paginationView = () => {
-let pageCounter = Math.ceil(taskArray.length / TASK_ON_PAGE);
+  
+  let pageCounter = Math.ceil(taskArray.length / TASK_ON_PAGE);
 
-pages.innerHTML = '';
+  pages.innerHTML = '';
 
-for (let i = 0; i < pageCounter; i++) {
+  for (let i = 0; i < pageCounter; i++) {
  
-      let pageList = `<button class="pages__button" id = "${i + 1}">${i + 1}</button>`;
-    console.log(pages);
-      
-      
+    let pageList = `<button class="pages__button" id = "${i + 1}">${i + 1}</button>`;
     pages.innerHTML = pages.innerHTML + pageList;
-     
-    console.log(pageList);
+    if (i < 2) {
+      
     };
-    
+  };
 };
 
+
+
 const pressPageButton = (event) => {
-  if (event.target.className === 'pages__button') numberPage = event.target.id;
-  console.log(numberPage);
+  if (event.target.className === 'pages__button') {
+    numberPage = event.target.id
+  };
+  console.log(event);
   render();
 };
 
 
+const focusLastPage = () => {
+  
+  // pages.target.lastChild.classList.add('pages__status');
+};
+
 const render = () => { 
+  
+  if (taskArray.length > 0) {
+    buttonAllInState.classList.add('button__check');
+    buttonActiveState.classList.remove('button__check');
+    buttonCompletedState.classList.remove('button__check');
+  } else {
+    buttonAllInState.classList.remove('button__check');
+  };
 
   if (taskArray.length === 0) {
     pages.innerHTML = '';
@@ -281,6 +301,13 @@ const render = () => {
       </li>`
   });
   taskList.innerHTML = newElement;
+
+  // if (pages > 0) {
+
+  // };
+
+  // pages
+  focusLastPage();
   checkAllCheckbox();
   allLength();
   activeLength();
